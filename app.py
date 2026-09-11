@@ -1,11 +1,9 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 import os
 import yt_dlp
+import tempfile
 
 app = Flask(__name__)
-
-DOWNLOAD_FOLDER = "downloads"
-os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
 
 @app.route("/")
@@ -15,6 +13,7 @@ def home():
 
 @app.route("/download", methods=["POST"])
 def download():
+
     url = request.form.get("url")
 
     if not url:
@@ -24,9 +23,13 @@ def download():
         })
 
     try:
+
+        # Folder sementara
+        temp_folder = tempfile.mkdtemp()
+
         ydl_opts = {
             "outtmpl": os.path.join(
-                DOWNLOAD_FOLDER,
+                temp_folder,
                 "%(title)s.%(ext)s"
             ),
             "format": "best",
@@ -34,14 +37,19 @@ def download():
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
 
-        return jsonify({
-            "success": True,
-            "message": "Video berhasil diunduh!"
-        })
+            info = ydl.extract_info(url, download=True)
+
+            filename = ydl.prepare_filename(info)
+
+        # Kirim file ke browser pengguna
+        return send_file(
+            filename,
+            as_attachment=True
+        )
 
     except Exception as e:
+
         return jsonify({
             "success": False,
             "message": str(e)
