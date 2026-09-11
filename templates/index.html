@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>SnapTok - TikTok Downloader</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='p.css') }}">
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <!-- NAVBAR -->
+        <header class="navbar">
+
+            <div class="logo">
+                Firuz<span>Tok</span> ⚡
+            </div>
+
+            <nav class="menu">
+
+                <a href="#cara">
+                    Cara Kerja
+                </a>
+
+                <a href="#tentang">
+                    Tentang
+                </a>
+
+                <div class="badge">
+                    Cepat & Gratis
+                </div>
+
+            </nav>
+
+        </header>
+
+
+        <!-- HERO -->
+        <main>
+
+            <section class="hero">
+
+                <div class="eyebrow">
+                    TIKTOK VIDEO DOWNLOADER
+                </div>
+
+
+                <h1>
+                    Simpan video favoritmu
+                    <br>
+                    <span>dengan mudah.</span>
+                </h1>
+
+
+                <p class="description">
+
+                    Tempel link video TikTok, proses,
+                    lalu simpan videonya.
+
+                    Tanpa tanda air dan gratis
+
+                </p>
+
+
+                <!-- DOWNLOAD -->
+
+                <form
+                    class="download-box"
+                    id="downloadForm"
+                >
+
+                    <input
+                        type="text"
+                        id="url"
+                        name="url"
+                        placeholder="Tempel link TikTok di sini..."
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                    >
+
+                        Download Video ↓
+
+                    </button>
+
+                </form>
+
+
+                <!-- HASIL -->
+
+                <p id="hasil"></p>
+
+
+            </section>
+
+
+            <!-- CARA KERJA -->
+
+            <section
+                class="features"
+                id="cara"
+            >
+
+
+                <div class="card">
+
+                    <div class="icon">
+                        🔗
+                    </div>
+
+                    <h3>
+                        1. Tempel Link
+                    </h3>
+
+                    <p>
+                        Salin URL video TikTok dan
+                        tempelkan ke kolom di atas.
+                    </p>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <div class="icon">
+                        ⚡
+                    </div>
+
+                    <h3>
+                        2. Proses Cepat
+                    </h3>
+
+                    <p>
+                        Server memproses URL dan
+                        menyiapkan file video.
+                    </p>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <div class="icon">
+                        📥
+                    </div>
+
+                    <h3>
+                        3. Simpan
+                    </h3>
+
+                    <p>
+                        Klik tombol simpan ketika
+                        video selesai diproses.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer id="tentang">
+
+            © 2026 Firuztok ·
+            Gunakan secara bertanggung jawab.
+
+        </footer>
+
+
+    </div>
+
+
+    <script>
+
+        const form =
+            document.getElementById("downloadForm");
+
+
+        form.addEventListener(
+            "submit",
+
+            async function(e) {
+
+                e.preventDefault();
+
+
+                const url =
+                    document.getElementById("url").value;
+
+
+                const hasil =
+                    document.getElementById("hasil");
+
+
+                hasil.innerText =
+                    "Sedang memproses...";
+
+
+                const data =
+                    new FormData();
+
+
+                data.append(
+                    "url",
+                    url
+                );
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/download",
+                            {
+                                method: "POST",
+                                body: data
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    hasil.innerText =
+                        result.message;
+
+
+                }
+
+                catch (error) {
+
+                    hasil.innerText =
+                        "Terjadi kesalahan. Coba lagi.";
+
+                }
+
+            }
+
+        );
+
+    </script>
+
+
+</body>
+
+</html>
