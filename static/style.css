@@ -262,28 +262,6 @@ button:disabled {
 }
 
 
-.download-box select {
-  min-height: 56px;
-  padding: 0 16px;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 14px;
-  color: #ffffff;
-  background: #111827;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.download-box select:focus-visible {
-  outline: 2px solid #67e8f9;
-  outline-offset: 2px;
-}
-
-.download-box select option {
-  color: #ffffff;
-  background: #111827;
-}
-
-
 /* STATUS */
 
 .status {
@@ -437,8 +415,3 @@ footer {
   }
 }
 
-@media (max-width: 700px) {
-  .download-box select {
-    width: 100%;
-  }
-}
